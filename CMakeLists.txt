@@ -37,7 +37,13 @@ if(OATPP_MODULES_LOCATION STREQUAL OATPP_MODULES_LOCATION_INSTALLED)
 
     message("Finding oatpp in location=INSTALLED")
 
-    find_package(oatpp ${OATPP_THIS_MODULE_VERSION} REQUIRED)
+    # find_package(oatpp ${OATPP_THIS_MODULE_VERSION} REQUIRED)
+    if(NOT TARGET oatpp)
+        message(STATUS "oatpp target not found — calling find_package()")
+        find_package(oatpp REQUIRED)
+    else()
+        message(STATUS "oatpp already present as target — skipping find_package()")
+    endif()
 
     get_target_property(OATPP_INCLUDE oatpp::oatpp INTERFACE_INCLUDE_DIRECTORIES)
     message("OATPP_INCLUDE=${OATPP_INCLUDE}")
